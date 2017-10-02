@@ -47,8 +47,8 @@ def test_question_generation():
     )
 
     generated_question = question_with_function_over_range.create_specific_question()
-    assert generated_question.question_to_latex() in ("What is 1^2 ?", "What is 2^2 ?")
-    assert generated_question.answer_to_latex() in ("1", "4")
+    assert generated_question.render_question() in ("What is 1^2 ?", "What is 2^2 ?")
+    assert generated_question.render_answer() in ("1", "4")
 
 def test_extract_input_combination():
     """Test helper function that extracts a single value from a dictionary containing choices"""
