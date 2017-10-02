@@ -57,8 +57,12 @@ class Quiz:
         })
         return rendered_output
 
-    def quiz_to_latex(self):
-        """Output the quiz in a LaTeX format"""
+    def render(self):
+        """
+        Render the quiz using the provided template
+        :rtype: str
+        :returns: A string with the rendered quiz
+        """
         rendered_output = self.quiz_questions_template.render({
             "quiz_name": self.quiz_name,
             "quiz_version": self.quiz_version,

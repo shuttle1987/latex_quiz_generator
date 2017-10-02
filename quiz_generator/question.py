@@ -42,15 +42,15 @@ class Question:
         if answer_generation_function:
             self.answers = answer_generation_function(inputs)
 
-    def question_to_latex(self):
-        """Write out a representation of the question to LaTeX"""
+    def render_question(self):
+        """Render the question template with the question inputs"""
         if self.question_inputs:
             return self.question_template.render(self.question_inputs)
         else:
             return self.question_template.render()
 
-    def answer_to_latex(self):
-        """Write out a representation of the answer to LaTeX"""
+    def render_answer(self):
+        """Render the answer template with the answers"""
         if self.answer_generation_function:
             return self.answer_template.render(self.answers)
         else:

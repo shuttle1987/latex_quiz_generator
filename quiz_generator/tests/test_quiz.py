@@ -34,7 +34,7 @@ def test_quiz_creation():
         questions=[question1, question2],
         quiz_name=name
     )
-    rendered_quiz = test_quiz.quiz_to_latex()
+    rendered_quiz = test_quiz.render()
     assert name in rendered_quiz
     assert question_1_text in rendered_quiz
     assert question_2_text in rendered_quiz
