@@ -25,9 +25,9 @@ def test_quiz_creation():
     question_1_text = "Content of question1"
     question_2_text = "Content of question2"
     question1 = Mock()
-    question1.question_to_latex = question_1_text
+    question1.render_question = Mock(return_value=question_1_text)
     question2 = Mock()
-    question2.question_to_latex = question_2_text
+    question2.render_question = Mock(return_value=question_2_text)
 
     name = "Mock quiz"
     test_quiz = Quiz(
@@ -44,9 +44,9 @@ def test_marking_sheet():
     answer_to_q_1 = "Answer to question1"
     answer_to_q_2 = "Answer to question2"
     question1 = Mock()
-    question1.answer_to_latex = answer_to_q_1
+    question1.render_answer = Mock(return_value=answer_to_q_1)
     question2 = Mock()
-    question2.answer_to_latex = answer_to_q_2
+    question2.render_answer = Mock(return_value=answer_to_q_2)
 
     name = "Mock quiz"
     test_quiz = Quiz(
