@@ -54,12 +54,12 @@ class Variation:
                            defaults to sequentially selecting.
         """
         self.items = items
-        if selection_function is None:
-            self.selection_function = sequential_selection
+        if selection_method is None:
+            self.selection_method = sequential_selection
         else:
-            self.selection_function = selection_function
+            self.selection_method = selection_method
 
     def get(self):
         """Yield next item"""
-        return self.selection_function(self.items)
+        return self.selection_method(self.items)
 
