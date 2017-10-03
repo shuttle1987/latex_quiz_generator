@@ -56,3 +56,10 @@ class Question:
         else:
             return self.answer_template.render()
 
+    def __eq__(self, other):
+        return all([
+            self.question_template == other.question_template,
+            self.answer_template == other.answer_template,
+            self.question_inputs == other.question_inputs,
+            self.answer_generation_function == other.answer_generation_function,
+        ])
