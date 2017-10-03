@@ -1,6 +1,8 @@
 """
 Representation of a question with a range of input values
 """
+import copy
+
 from .question import Question
 from .input_variation import Variation
 
@@ -28,6 +30,26 @@ def extract_input_combination(inputs_mapping):
             results[key] = value
     return results
 
+def expand_variations(inputs_mapping):
+    """Expand all Variations values in a mapping to create all possible input combinations.
+
+    >>> create_all_inputs({"a": 1, "b": Variation([2,3])})
+    [{"a": 1, "b": 2}, {"a": 1, "b": 3}]
+
+    :inputs_mapping: a mapping of template keys to values
+    """
+    results = []
+    if any(isinstance(value, Variation) for value in inputs_mapping.values()):
+        #expand every Variation value
+        for key, value in inputs_mapping.items():
+            if isinstance(value, Variation):
+                for instance in value.get():
+                    inputs_copy = copy.copy(inputs_mapping)
+                    inputs_copy[key] = instance
+                    results.extend(expand_variations(inputs_copy))
+    else:
+        results = [inputs_mapping]
+    return results
 
 class RangedQuestion:
     """Helper class for generating questions that have a range of possible inputs."""
@@ -73,5 +95,16 @@ class RangedQuestion:
     def create_all_questions(self):
         """
         Create all possible questions from the input combinations
+        :returns: A list of Questions
         """
-        raise NotImplementedError
+        questions = []
+        for input_instance in expand_variations(self.question_inputs):
+            questions.append(
+                Question(
+                    question_template=self.question_template,
+                    answer_template=self.answer_template,
+                    inputs=input_instance,
+                    answer_generation_function=self.answer_generation_function
+                )
+            )
+        return questions
