@@ -107,7 +107,7 @@ def test_question_enumeration():
 
     assert question_with_bob in questions
 
-    question_with_bob = Question(
+    question_with_alice = Question(
         question_template=q_template,
         answer_template=a_template,
         inputs={"name": "Alice"}
