@@ -39,18 +39,27 @@ This explicitly chooses an item from the list.
 """
 
 
+def sequential_selection(items):
+    """Sequentially yield items from an iterable"""
+    for item in items:
+        yield item
+
 class Variation:
     """This class manages choice based inputs"""
-    SEQUENTIAL = 1
-    RANDOM = 2
 
-    def __init__(self, items, selection_method=SEQUENTIAL):
+    def __init__(self, items, selection_method=None):
         """
-        :selection_method: the strategy to pick items from this group
+        :items: the items we can choose from
+        :selection_method: A function that contains the strategy to pick items,
+                           defaults to sequentially selecting.
         """
         self.items = items
+        if selection_function is None:
+            self.selection_function = sequential_selection
+        else:
+            self.selection_function = selection_function
 
     def get(self):
         """Yield next item"""
-        for item in self.items:
-            yield item
+        return self.selection_function(self.items)
+
