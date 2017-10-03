@@ -10,6 +10,21 @@ from quiz_generator.ranged_question import (
 from quiz_generator.question import Question
 from quiz_generator.input_variation import Variation
 
+def test_inputs_expansion_no_variations():
+    from quiz_generator.ranged_question import expand_variations
+
+    results = expand_variations({"a": 1, "b": 2})
+    assert len(results) == 1
+    assert results == [{"a": 1, "b": 2}]
+
+def test_inputs_expansion():
+    from quiz_generator.ranged_question import expand_variations
+
+    results = expand_variations({"a": 1, "b": Variation([2,3])})
+    assert len(results) == 2
+    assert {"a": 1, "b": 2} in results
+    assert {"a": 1, "b": 3} in results
+
 def test_question_generation_no_inputs():
     """Test that a specific question can be generated from the RangedQuestion"""
     # The specific case where the question inputs are not iterable or form a
@@ -66,3 +81,36 @@ def test_extract_input_combination():
         'c': "xyz",
     }
     assert extract_input_combination(no_variations2) == no_variations2
+
+def test_question_enumeration():
+    """Test that creating all questions from a ranged question works as advertised"""
+
+    import jinja2
+    q_template = jinja2.Template("{{name}} is a software developer. What do they develop?")
+    a_template = jinja2.Template("software")
+
+    question_with_multiple_people = RangedQuestion(
+        question_template=q_template,
+        answer_template=a_template,
+        inputs={"name": Variation(["Bob", "Alice"])}
+    )
+
+    questions = question_with_multiple_people.create_all_questions()
+
+    assert len(questions) == 2
+
+    question_with_bob = Question(
+        question_template=q_template,
+        answer_template=a_template,
+        inputs={"name": "Bob"}
+    )
+
+    assert question_with_bob in questions
+
+    question_with_bob = Question(
+        question_template=q_template,
+        answer_template=a_template,
+        inputs={"name": "Alice"}
+    )
+    assert question_with_alice in questions
+
