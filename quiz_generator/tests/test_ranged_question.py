@@ -66,3 +66,36 @@ def test_extract_input_combination():
         'c': "xyz",
     }
     assert extract_input_combination(no_variations2) == no_variations2
+
+def test_question_enumeration():
+    """Test that creating all questions from a ranged question works as advertised"""
+
+    import jinja2
+    q_template = jinja2.Template("{{name}} is a software developer. What do they develop?")
+    a_template = jinja2.Template("software")
+
+    question_with_multiple_people = RangedQuestion(
+        question_template=q_template,
+        answer_template=a_template,
+        inputs={"name": Variation(["Bob", "Alice"])}
+    )
+
+    questions = question_with_multiple_people.create_all_questions()
+
+    assert len(questions) == 2
+
+    question_with_bob = Question(
+        question_template=q_template,
+        answer_template=a_template,
+        inputs={"name": "Bob"}
+    )
+
+    assert question_with_bob in questions
+
+    question_with_bob = Question(
+        question_template=q_template,
+        answer_template=a_template,
+        inputs={"name": "Alice"}
+    )
+    assert question_with_alice in questions
+
