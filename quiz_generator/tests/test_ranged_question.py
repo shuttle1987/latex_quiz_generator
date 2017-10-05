@@ -147,3 +147,32 @@ def test_complex_variation():
     questions = worded_question.create_all_questions()
 
     assert len(questions) == 2
+
+
+def test_int_interation_regression():
+    """Test that an error iterating over integers is fixed"""
+
+    import random
+    import jinja2
+
+    inputs = {
+        "number_of_tables": Variation([2,3,4], selection_method=random.choice),
+        "cost_per_table": 5,
+    }
+
+    def compute_total_cost(inputs):
+        return {"total_cost": inputs["number_of_tables"] * inputs["cost_per_table"]}
+
+    question_text = jinja2.Template("""
+    {{nuumer_of_tables}} were bought at a cost of {{cost_per_table}} how much was the total?
+    """)
+
+    worded_question = RangedQuestion(
+        question_template=question_text,
+        answer_template=jinja2.Template("Total cost is {{total_cost}}"),
+        inputs=inputs,
+        answer_generation_function=compute_total_cost
+    )
+
+    question_instance = worded_question.create_specific_question()
+    assert question_instance
