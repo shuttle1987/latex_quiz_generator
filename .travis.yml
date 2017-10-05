@@ -11,9 +11,9 @@ python:
 
 before_install:
    - pip install tox-travis
-   - pip install coveralls
 script:
    - tox
-   - coverage run --source=quiz_generator setup.py test
+env:
+   - TOXENV=coverage
 after_success:
    - coveralls
