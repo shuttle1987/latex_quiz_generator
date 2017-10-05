@@ -61,5 +61,5 @@ class Variation:
 
     def get(self):
         """Yield next item"""
-        return self.selection_method(self.items)
+        yield from self.selection_method(self.items)
 
