@@ -11,10 +11,10 @@ python:
 
 before_install:
    - pip install tox-travis
-   - pip install pytest-cov
+   - pip install coveralls
 script:
    - tox
-   - py.test --cov quiz_generator
+   - coverage run --source=mypkg setup.py test
 env:
    - TOXENV=coverage
 after_success:
