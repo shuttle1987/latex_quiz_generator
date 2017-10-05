@@ -114,3 +114,36 @@ def test_question_enumeration():
     )
     assert question_with_alice in questions
 
+
+def test_complex_variation():
+    # Worded question
+    import random
+    import jinja2
+    inputs = {
+        "person": Variation([
+            {"name": "Bob", "pronoun": "he"},
+            {"name": "Alice", "pronoun": "she"},
+            ],
+            selection_method=random.choice),
+        "number_of_tables": 2,
+        "cost_per_table": 10,
+    }
+
+    def compute_total_cost(inputs):
+        return {"total_cost": inputs["number_of_tables"] * inputs["cost_per_table"]}
+
+    question_text = jinja2.Template("""
+    {{person[name]}} went to an auction to buy tables. Each table cost {{cost_per_table}}.
+    How much did {{person[name]}} spend for the {{number_of_tables}} that {{person["pronoun"]}} bought?
+    """)
+
+    worded_question = RangedQuestion(
+        question_template=question_text,
+        answer_template=jinja2.Template("Total cost is {{total_cost}}"),
+        inputs=inputs,
+        answer_generation_function=compute_total_cost
+    )
+
+    questions = worded_question.create_all_questions()
+
+    assert len(questions) == 2
