@@ -10,9 +10,11 @@ python:
    - "pypy3"
 
 before_install:
-   - pip install tox-travis coveralls
+   - pip install tox-travis
+   - pip install pytest-cov
 script:
    - tox
+   - py.test --cov quiz_generator
 env:
    - TOXENV=coverage
 after_success:
