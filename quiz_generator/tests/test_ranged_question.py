@@ -82,6 +82,15 @@ def test_extract_input_combination():
     }
     assert extract_input_combination(no_variations2) == no_variations2
 
+def test_sample_from_input_combinations():
+
+    inputs = {
+        "number_of_tables": Variation([2,3,4], selection_method=random.choice),
+        "cost_per_table": 5,
+    }
+    result = extract_input_combination(inputs)
+    assert result
+
 def test_question_enumeration():
     """Test that creating all questions from a ranged question works as advertised"""
 
