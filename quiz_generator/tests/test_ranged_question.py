@@ -92,9 +92,9 @@ def test_sample_from_input_combinations():
     assert result
 
 def test_random_sample_from_input_variation():
-    import random
+    from quiz_generator.input_variation import random_ordering
     inputs = {
-        "number_of_tables": Variation([2,3,4], selection_method=random.choice),
+        "number_of_tables": Variation([2,3,4], selection_method=random_ordering),
         "cost_per_table": 5,
     }
     result = extract_input_combination(inputs)
@@ -135,14 +135,16 @@ def test_question_enumeration():
 
 def test_complex_variation():
     # Worded question
-    import random
     import jinja2
+
+    from quiz_generator.input_variation import random_ordering
+
     inputs = {
         "person": Variation([
             {"name": "Bob", "pronoun": "he"},
             {"name": "Alice", "pronoun": "she"},
             ],
-            selection_method=random.choice),
+            selection_method=random_ordering),
         "number_of_tables": 2,
         "cost_per_table": 10,
     }
@@ -169,12 +171,12 @@ def test_complex_variation():
 
 def test_int_interation_regression():
     """Test that an error iterating over integers is fixed"""
-
-    import random
     import jinja2
 
+    from quiz_generator.input_variation import random_ordering
+
     inputs = {
-        "number_of_tables": Variation([2,3,4], selection_method=random.choice),
+        "number_of_tables": Variation([2,3,4], selection_method=random_ordering),
         "cost_per_table": 5,
     }
 

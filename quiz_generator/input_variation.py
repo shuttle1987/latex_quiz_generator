@@ -37,12 +37,20 @@ Variations make the intent explicit:
 This explicitly chooses an item from the list.
 
 """
-
+import random
 
 def sequential_selection(items):
     """Sequentially yield items from an iterable"""
     for item in items:
         yield item
+
+def random_ordering(items):
+    """Yield all items from an iterable in a random order"""
+    #create the index and shuffle that index
+    item_order = list(range(len(items)))
+    random.shuffle(item_order)
+    for index in item_order:
+        yield items[index]
 
 class Variation:
     """This class manages choice based inputs"""
