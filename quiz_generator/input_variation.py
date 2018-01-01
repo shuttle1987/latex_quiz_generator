@@ -2,7 +2,7 @@
 This module supplies code to handle arbitrary choices in the question input.
 This is done via a class that handles how a specific location in the text is filled in.
 
-When a question can have multiple inputs of an arbitrary nature we wish to make it convienent
+When a question can have multiple inputs of an arbitrary nature we wish to make it convenient
 to pass that directly to the templating engine but the difficulty arises when we must
 deal with choices.
 
